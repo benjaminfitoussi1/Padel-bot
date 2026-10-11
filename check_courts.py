@@ -22,8 +22,19 @@ FINISH_BY      = "20:00"   # the game must be over by this time
 DAYS_TO_CHECK  = 8         # how many days ahead to look
 DAYS_I_WANT    = ["Saturday", "Sunday"]
 
-# Your private ntfy channel (subscribe to this exact name in the ntfy app)
-NTFY_CHANNEL   = "ben-padel-0867025160"
+# Your private ntfy channel. It's NOT written here because the code is public.
+# On GitHub it comes from a hidden "secret" called NTFY_CHANNEL.
+# On your Mac it's read from a file called ntfy_channel.txt in this folder.
+def find_ntfy_channel():
+    if os.environ.get("NTFY_CHANNEL"):
+        return os.environ["NTFY_CHANNEL"].strip()
+    local_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ntfy_channel.txt")
+    if os.path.exists(local_file):
+        with open(local_file) as f:
+            return f.read().strip()
+    return ""
+
+NTFY_CHANNEL = find_ntfy_channel()
 
 # File where the bot remembers what it already told you about
 MEMORY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "seen_slots.json")
@@ -253,7 +264,9 @@ if __name__ == "__main__":
     seen_before = load_memory()
     new_slots = [s for s in slots if slot_id(s) not in seen_before]
 
-    if new_slots:
+    if new_slots and not NTFY_CHANNEL:
+        print("\n⚠️ No ntfy channel set, so no phone alert was sent.")
+    elif new_slots:
         send_phone_alert(new_slots)
         print(f"\n📱 Sent a phone alert about {len(new_slots)} new slot(s).")
     else:
