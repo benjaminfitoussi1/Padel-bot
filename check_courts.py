@@ -23,7 +23,7 @@ DAYS_TO_CHECK  = 8         # how many days ahead to look
 DAYS_I_WANT    = ["Saturday", "Sunday"]
 
 # Your private ntfy channel (subscribe to this exact name in the ntfy app)
-NTFY_CHANNEL   = "padel-eva-0867025160"
+NTFY_CHANNEL   = "ben-padel-0867025160"
 
 # File where the bot remembers what it already told you about
 MEMORY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "seen_slots.json")
@@ -33,6 +33,13 @@ ROYAL_PARKS = {
     "Regent's Park": "the-regents-park-courts",
     "Hyde Park":     "hyde-park-courts",
 }
+
+# Sports to check at the Royal Parks (remove one to stop checking it)
+ROYAL_PARKS_SPORTS = ["padel", "tennis"]
+
+# Playtomic blocks GitHub's computers, so it's switched off for now.
+# Change to True to include Paddington and Earl's Court (works on your Mac).
+CHECK_PLAYTOMIC = False
 
 # Playtomic clubs: name -> (club code, booking page)
 PLAYTOMIC = {
@@ -77,10 +84,10 @@ def fits_my_times(start, duration_minutes):
 # 3. ASKING EACH BOOKING SYSTEM
 # ============================================================
 
-def check_royal_parks(club_name, venue_code, day):
-    """Return the free slots at a Royal Parks club on a given day."""
+def check_royal_parks(club_name, venue_code, day, sport):
+    """Return the free slots for one sport at a Royal Parks club on a given day."""
     url = (f"https://flow.onl/api/activities/venue/{venue_code}"
-           f"/activity/padel/v2/times?date={day.isoformat()}")
+           f"/activity/{sport}/v2/times?date={day.isoformat()}")
     # Flow runs booking sites for many organisations; these headers tell it
     # we're asking on behalf of the Royal Parks site (like a browser does).
     royal_parks_site = "https://sportsandleisureroyalparks.bookings.flow.onl"
@@ -93,13 +100,14 @@ def check_royal_parks(club_name, venue_code, day):
         is_free = slot["action_to_show"]["status"] == "BOOK"  # "FULL" if taken
         if is_free and fits_my_times(start, 60):
             found.append({
+                "sport": sport.capitalize(),           # "Padel" or "Tennis"
                 "club": club_name,
                 "day": day,
                 "time": start,
                 "length": "60 min",
                 "detail": f"{slot['spaces']} court(s) free",
                 "link": ("https://sportsandleisureroyalparks.bookings.flow.onl/location/"
-                         f"{venue_code}/padel/{day.isoformat()}/by-time"),
+                         f"{venue_code}/{sport}/{day.isoformat()}/by-time"),
             })
     return found
 
@@ -138,6 +146,7 @@ def check_playtomic(club_name, club_code, booking_page, day):
     found = []
     for (start, length), n in sorted(counts.items()):
         found.append({
+            "sport": "Padel",
             "club": club_name,
             "day": day,
             "time": start,
@@ -154,7 +163,7 @@ def check_playtomic(club_name, club_code, booking_page, day):
 
 def slot_id(s):
     """A short label that identifies one slot, e.g. "Hyde Park|2026-10-17|20:00|60 min"."""
-    return f"{s['club']}|{s['day'].isoformat()}|{s['time']}|{s['length']}"
+    return f"{s['sport']}|{s['club']}|{s['day'].isoformat()}|{s['time']}|{s['length']}"
 
 
 def load_memory():
@@ -172,15 +181,18 @@ def save_memory(ids):
 
 
 def describe(s):
-    return f"{s['day'].strftime('%a %d %b')} {s['time']} ({s['length']}) - {s['club']}"
+    """e.g. "TENNIS - Sat 17 Oct 20:00 (60 min) - Hyde Park" """
+    return (f"{s['sport'].upper()} - {s['day'].strftime('%a %d %b')} {s['time']} "
+            f"({s['length']}) - {s['club']}")
 
 
 def send_phone_alert(new_slots):
     """Send ONE notification to your phone listing the new slots."""
     if len(new_slots) == 1:
-        title = "Padel court free: " + describe(new_slots[0])
+        title = describe(new_slots[0])
     else:
-        title = f"{len(new_slots)} new padel slots free"
+        sports = sorted({s["sport"] for s in new_slots})       # e.g. ["Padel", "Tennis"]
+        title = f"{len(new_slots)} new {' & '.join(sports).lower()} slots free"
     message = "\n".join(describe(s) + " - " + s["detail"] for s in new_slots[:15])
 
     request = urllib.request.Request(
@@ -210,12 +222,15 @@ def find_free_courts():
             continue  # skip weekdays
 
         for name, code in ROYAL_PARKS.items():
-            try:
-                all_slots += check_royal_parks(name, code, day)
-            except Exception as error:
-                print(f"  ! Couldn't check {name} on {day}: {error}")
+            for sport in ROYAL_PARKS_SPORTS:
+                try:
+                    all_slots += check_royal_parks(name, code, day, sport)
+                except Exception as error:
+                    print(f"  ! Couldn't check {sport} at {name} on {day}: {error}")
 
         for name, (code, page) in PLAYTOMIC.items():
+            if not CHECK_PLAYTOMIC:
+                break  # Playtomic switched off in SETTINGS
             try:
                 all_slots += check_playtomic(name, code, page, day)
             except Exception as error:
