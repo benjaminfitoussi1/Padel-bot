@@ -2,7 +2,7 @@ name: Check padel courts
 
 on:
   schedule:
-    - cron: "*/20 6-21 * * *"   # every 20 min, 6:00-21:59 (UTC)
+    - cron: "*/10 6-21 * * *"   # every 10 min, 6:00-21:59 (UTC)
   workflow_dispatch:             # adds a "Run workflow" button for testing
 
 permissions:
@@ -16,7 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     env:
-      TZ: Europe/London          # use London time for dates
+      TZ: Europe/London                          # use London time for dates
+      NTFY_CHANNEL: ${{ secrets.NTFY_CHANNEL }}  # the hidden channel name
     steps:
       - uses: actions/checkout@v5
 
