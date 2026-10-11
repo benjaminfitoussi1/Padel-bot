@@ -1,1 +1,9 @@
-[]
+{
+ "seen": [],
+ "stats": {
+  "day": "2026-10-12",
+  "checks": 1,
+  "new_slots": 0,
+  "errors": 0
+ }
+}
