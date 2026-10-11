@@ -106,9 +106,22 @@ def check_royal_parks(club_name, venue_code, day):
 
 def check_playtomic(club_name, club_code, booking_page, day):
     """Return the free slots at a Playtomic club on a given day."""
-    url = (f"https://playtomic.com/api/clubs/availability"
-           f"?tenant_id={club_code}&date={day.isoformat()}&sport_id=PADEL")
-    courts = get_json(url)   # a list: one entry per court that has free slots
+    d = day.isoformat()
+    # Playtomic has two addresses: its website, and the one its phone app uses.
+    # The website one blocks some servers (like GitHub's), so if it refuses
+    # us we try the app one instead.
+    website_url = (f"https://playtomic.com/api/clubs/availability"
+                   f"?tenant_id={club_code}&date={d}&sport_id=PADEL")
+    app_url = (f"https://api.playtomic.io/v1/availability?user_id=me&sport_id=PADEL"
+               f"&tenant_id={club_code}"
+               f"&local_start_min={d}T00:00:00&local_start_max={d}T23:59:59")
+    try:
+        courts = get_json(website_url)   # a list: one entry per court with free slots
+    except Exception as website_error:
+        try:
+            courts = get_json(app_url)
+        except Exception as app_error:
+            raise Exception(f"website said '{website_error}', app address said '{app_error}'")
 
     # Several courts can be free at the same time, so count them per time+length
     counts = {}
