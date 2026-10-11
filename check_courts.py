@@ -178,17 +178,39 @@ def slot_id(s):
 
 
 def load_memory():
-    """Read the list of slots we saw last time (empty the very first time)."""
-    if not os.path.exists(MEMORY_FILE):
-        return set()
-    with open(MEMORY_FILE) as f:
-        return set(json.load(f))
+    """Read what we saw last time + today's counters (empty the very first time)."""
+    memory = {"seen": [], "stats": {}}
+    if os.path.exists(MEMORY_FILE):
+        with open(MEMORY_FILE) as f:
+            saved = json.load(f)
+        if isinstance(saved, list):        # older format: just the list of slots
+            memory["seen"] = saved
+        else:
+            memory.update(saved)
+    return memory
 
 
-def save_memory(ids):
-    """Write down the slots we see now, for next time."""
+def save_memory(memory):
+    """Write everything down for next time."""
     with open(MEMORY_FILE, "w") as f:
-        json.dump(sorted(ids), f, indent=1)
+        json.dump(memory, f, indent=1)
+
+
+def send_daily_report(stats):
+    """Once a day: tell you the bot is alive, and how yesterday went."""
+    day = date.fromisoformat(stats["day"]).strftime("%a %d %b")
+    message = (f"{stats.get('checks', 0)} checks done, "
+               f"{stats.get('new_slots', 0)} new slot(s) found.")
+    if stats.get("errors", 0):
+        message += f"\n⚠️ {stats['errors']} check(s) had errors - worth a look on GitHub."
+    request = urllib.request.Request(
+        f"https://ntfy.sh/{NTFY_CHANNEL}",
+        data=message.encode("utf-8"),
+        headers={"Title": f"Court bot daily report - {day}",
+                 "Tags": "robot",
+                 "Priority": "low"},           # a quiet notification
+    )
+    urllib.request.urlopen(request, timeout=20)
 
 
 def describe(s):
@@ -223,6 +245,9 @@ def send_phone_alert(new_slots):
 # 5. MAIN  -- go through each day and each club
 # ============================================================
 
+ERRORS = []   # problems during this run (counted in the daily report)
+
+
 def find_free_courts():
     all_slots = []
     today = date.today()
@@ -238,6 +263,7 @@ def find_free_courts():
                     all_slots += check_royal_parks(name, code, day, sport)
                 except Exception as error:
                     print(f"  ! Couldn't check {sport} at {name} on {day}: {error}")
+                    ERRORS.append(error)
 
         for name, (code, page) in PLAYTOMIC.items():
             if not CHECK_PLAYTOMIC:
@@ -246,6 +272,7 @@ def find_free_courts():
                 all_slots += check_playtomic(name, code, page, day)
             except Exception as error:
                 print(f"  ! Couldn't check {name} on {day}: {error}")
+                ERRORS.append(error)
 
     return all_slots
 
@@ -260,8 +287,22 @@ if __name__ == "__main__":
         print(f"✅ {describe(s)} - {s['detail']}")
         print(f"   Book: {s['link']}")
 
+    memory = load_memory()
+
+    # Daily report: on the first check of a new day, report on the previous day
+    today = date.today().isoformat()
+    stats = memory["stats"]
+    if stats.get("day") != today:
+        if stats.get("day") and NTFY_CHANNEL:
+            try:
+                send_daily_report(stats)
+                print("📊 Sent the daily report.")
+            except Exception as error:
+                print(f"  ! Couldn't send the daily report: {error}")
+        stats = {"day": today, "checks": 0, "new_slots": 0, "errors": 0}
+
     # Only alert about slots that weren't free last time we checked
-    seen_before = load_memory()
+    seen_before = set(memory["seen"])
     new_slots = [s for s in slots if slot_id(s) not in seen_before]
 
     if new_slots and not NTFY_CHANNEL:
@@ -274,4 +315,8 @@ if __name__ == "__main__":
 
     # Remember what's free now. If a slot gets booked and later frees up
     # again (a cancellation!), it will count as new and you'll be alerted.
-    save_memory({slot_id(s) for s in slots})
+    stats["checks"] += 1
+    stats["new_slots"] += len(new_slots)
+    stats["errors"] += 1 if ERRORS else 0
+    save_memory({"seen": sorted(slot_id(s) for s in slots), "stats": stats})
+    print(f"Today so far: {stats['checks']} checks, {stats['new_slots']} new slot(s).")
