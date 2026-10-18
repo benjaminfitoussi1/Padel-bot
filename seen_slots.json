@@ -1,11 +1,10 @@
 {
  "seen": [
-  "Padel|Hyde Park|2026-10-24|19:00|60 min",
-  "Tennis|Hyde Park|2026-10-25|19:00|60 min"
+  "Padel|Hyde Park|2026-10-24|19:00|60 min"
  ],
  "stats": {
   "day": "2026-10-18",
-  "checks": 28,
+  "checks": 29,
   "new_slots": 3,
   "errors": 0
  }
