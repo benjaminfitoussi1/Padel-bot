@@ -1,9 +1,11 @@
 name: Check padel courts
 
 on:
+  repository_dispatch:
+    types: [check]               # cron-job.org triggers this every 10 min
   schedule:
-    - cron: "*/10 6-21 * * *"   # every 10 min, 6:00-21:59 (UTC)
-  workflow_dispatch:             # adds a "Run workflow" button for testing
+    - cron: "0 * * * *"          # GitHub's own timer, hourly, as a backup
+  workflow_dispatch:             # the "Run workflow" button (sends a summary)
 
 permissions:
   contents: write                # lets the bot save its memory file
