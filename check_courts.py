@@ -196,6 +196,22 @@ def save_memory(memory):
         json.dump(memory, f, indent=1)
 
 
+def send_manual_summary(slots):
+    """For runs you start yourself: list everything free right now."""
+    if slots:
+        title = f"Manual check: {len(slots)} slot(s) free"
+        message = "\n".join(describe(s) + " - " + s["detail"] for s in slots[:15])
+    else:
+        title = "Manual check: nothing free right now"
+        message = "The bot is working - just no courts in your hours."
+    headers = {"Title": title, "Tags": "tennis"}
+    if slots:
+        headers["Click"] = slots[0]["link"]
+    request = urllib.request.Request(f"https://ntfy.sh/{NTFY_CHANNEL}",
+                                     data=message.encode("utf-8"), headers=headers)
+    urllib.request.urlopen(request, timeout=20)
+
+
 def send_daily_report(stats):
     """Once a day: tell you the bot is alive, and how yesterday went."""
     day = date.fromisoformat(stats["day"]).strftime("%a %d %b")
@@ -305,7 +321,14 @@ if __name__ == "__main__":
     seen_before = set(memory["seen"])
     new_slots = [s for s in slots if slot_id(s) not in seen_before]
 
-    if new_slots and not NTFY_CHANNEL:
+    # When you press "Run workflow" yourself on GitHub, always send a message
+    # with everything free right now - an easy way to test the whole chain.
+    pressed_by_hand = os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
+
+    if pressed_by_hand and NTFY_CHANNEL:
+        send_manual_summary(slots)
+        print("\n📱 Manual run: sent a summary of what's free right now.")
+    elif new_slots and not NTFY_CHANNEL:
         print("\n⚠️ No ntfy channel set, so no phone alert was sent.")
     elif new_slots:
         send_phone_alert(new_slots)
