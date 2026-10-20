@@ -1,11 +1,11 @@
 {
  "seen": [
-  "Tennis|Regent's Park|2026-10-25|09:00|60 min"
+  "Tennis|Regent's Park|2026-10-25|18:00|60 min"
  ],
  "stats": {
   "day": "2026-10-20",
-  "checks": 47,
-  "new_slots": 2,
+  "checks": 48,
+  "new_slots": 3,
   "errors": 0
  }
 }
