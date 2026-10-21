@@ -1,9 +1,11 @@
 {
- "seen": [],
+ "seen": [
+  "Tennis|Hyde Park|2026-10-24|12:00|60 min"
+ ],
  "stats": {
   "day": "2026-10-21",
-  "checks": 50,
-  "new_slots": 0,
+  "checks": 51,
+  "new_slots": 1,
   "errors": 0
  }
 }
