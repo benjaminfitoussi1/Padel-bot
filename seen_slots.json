@@ -12,6 +12,7 @@
   "Padel|Regent's Park|2026-10-24|16:00|60 min",
   "Padel|Regent's Park|2026-10-24|18:00|60 min",
   "Padel|Regent's Park|2026-10-24|19:00|60 min",
+  "Padel|Regent's Park|2026-10-25|13:00|60 min",
   "Padel|Regent's Park|2026-10-25|19:00|60 min",
   "Padel|Regent's Park|2026-10-31|18:00|60 min",
   "Padel|Regent's Park|2026-10-31|19:00|60 min",
@@ -20,11 +21,12 @@
   "Tennis|Hyde Park|2026-10-24|17:00|60 min",
   "Tennis|Hyde Park|2026-10-24|18:00|60 min",
   "Tennis|Hyde Park|2026-10-24|19:00|60 min",
-  "Tennis|Hyde Park|2026-10-25|17:00|60 min",
   "Tennis|Hyde Park|2026-10-31|17:00|60 min",
   "Tennis|Hyde Park|2026-10-31|18:00|60 min",
   "Tennis|Hyde Park|2026-10-31|19:00|60 min",
   "Tennis|Regent's Park|2026-10-24|12:00|60 min",
+  "Tennis|Regent's Park|2026-10-24|13:00|60 min",
+  "Tennis|Regent's Park|2026-10-24|14:00|60 min",
   "Tennis|Regent's Park|2026-10-24|17:00|60 min",
   "Tennis|Regent's Park|2026-10-24|18:00|60 min",
   "Tennis|Regent's Park|2026-10-24|19:00|60 min",
@@ -34,8 +36,8 @@
  ],
  "stats": {
   "day": "2026-10-24",
-  "checks": 73,
-  "new_slots": 48,
+  "checks": 74,
+  "new_slots": 51,
   "errors": 0
  }
 }
