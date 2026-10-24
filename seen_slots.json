@@ -13,9 +13,9 @@
   "Tennis|Regent's Park|2026-10-31|19:00|60 min"
  ],
  "stats": {
-  "day": "2026-10-24",
-  "checks": 149,
-  "new_slots": 64,
+  "day": "2026-10-25",
+  "checks": 1,
+  "new_slots": 0,
   "errors": 0
  }
 }
