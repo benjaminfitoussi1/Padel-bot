@@ -5,14 +5,14 @@
   "Padel|Hyde Park|2026-11-01|09:00|60 min",
   "Padel|Regent's Park|2026-10-31|19:00|60 min",
   "Padel|Regent's Park|2026-11-01|13:00|60 min",
-  "Tennis|Hyde Park|2026-10-31|14:00|60 min",
   "Tennis|Hyde Park|2026-10-31|18:00|60 min",
-  "Tennis|Hyde Park|2026-10-31|19:00|60 min"
+  "Tennis|Hyde Park|2026-10-31|19:00|60 min",
+  "Tennis|Regent's Park|2026-10-31|13:00|60 min"
  ],
  "stats": {
   "day": "2026-10-30",
-  "checks": 73,
-  "new_slots": 13,
+  "checks": 74,
+  "new_slots": 14,
   "errors": 0
  }
 }
