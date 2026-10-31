@@ -1,14 +1,33 @@
 {
  "seen": [
   "Padel|Hyde Park|2026-10-31|19:00|60 min",
+  "Padel|Hyde Park|2026-11-07|17:00|60 min",
+  "Padel|Hyde Park|2026-11-07|18:00|60 min",
+  "Padel|Hyde Park|2026-11-07|19:00|60 min",
   "Padel|Regent's Park|2026-11-01|17:00|60 min",
   "Padel|Regent's Park|2026-11-01|19:00|60 min",
-  "Tennis|Hyde Park|2026-10-31|19:00|60 min"
+  "Padel|Regent's Park|2026-11-07|15:00|60 min",
+  "Padel|Regent's Park|2026-11-07|16:00|60 min",
+  "Padel|Regent's Park|2026-11-07|17:00|60 min",
+  "Padel|Regent's Park|2026-11-07|18:00|60 min",
+  "Padel|Regent's Park|2026-11-07|19:00|60 min",
+  "Tennis|Hyde Park|2026-10-31|19:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|09:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|12:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|14:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|15:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|16:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|17:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|18:00|60 min",
+  "Tennis|Hyde Park|2026-11-07|19:00|60 min",
+  "Tennis|Regent's Park|2026-11-07|17:00|60 min",
+  "Tennis|Regent's Park|2026-11-07|18:00|60 min",
+  "Tennis|Regent's Park|2026-11-07|19:00|60 min"
  ],
  "stats": {
   "day": "2026-10-31",
-  "checks": 43,
-  "new_slots": 0,
+  "checks": 44,
+  "new_slots": 19,
   "errors": 0
  }
 }
