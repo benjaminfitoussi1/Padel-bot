@@ -7,12 +7,11 @@
   "Tennis|Hyde Park|2026-11-07|09:00|60 min",
   "Tennis|Hyde Park|2026-11-07|18:00|60 min",
   "Tennis|Hyde Park|2026-11-07|19:00|60 min",
-  "Tennis|Hyde Park|2026-11-08|19:00|60 min",
-  "Tennis|Regent's Park|2026-11-08|18:00|60 min"
+  "Tennis|Hyde Park|2026-11-08|19:00|60 min"
  ],
  "stats": {
   "day": "2026-11-06",
-  "checks": 48,
+  "checks": 49,
   "new_slots": 3,
   "errors": 0
  }
