@@ -1,7 +1,6 @@
 {
  "seen": [
   "Padel|Hyde Park|2026-11-14|18:00|60 min",
-  "Padel|Regent's Park|2026-11-14|13:00|60 min",
   "Padel|Regent's Park|2026-11-14|17:00|60 min",
   "Padel|Regent's Park|2026-11-15|09:00|60 min",
   "Padel|Regent's Park|2026-11-15|10:00|60 min",
@@ -12,7 +11,7 @@
  ],
  "stats": {
   "day": "2026-11-13",
-  "checks": 143,
+  "checks": 144,
   "new_slots": 34,
   "errors": 0
  }
