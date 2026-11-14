@@ -18,15 +18,15 @@
   "Tennis|Hyde Park|2026-11-21|19:00|60 min",
   "Tennis|Regent's Park|2026-11-15|12:00|60 min",
   "Tennis|Regent's Park|2026-11-15|14:00|60 min",
-  "Tennis|Regent's Park|2026-11-15|17:00|60 min",
+  "Tennis|Regent's Park|2026-11-15|18:00|60 min",
   "Tennis|Regent's Park|2026-11-15|19:00|60 min",
   "Tennis|Regent's Park|2026-11-21|18:00|60 min",
   "Tennis|Regent's Park|2026-11-21|19:00|60 min"
  ],
  "stats": {
   "day": "2026-11-14",
-  "checks": 74,
-  "new_slots": 35,
+  "checks": 75,
+  "new_slots": 36,
   "errors": 0
  }
 }
