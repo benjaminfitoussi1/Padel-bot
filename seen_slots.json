@@ -10,9 +10,9 @@
   "Tennis|Regent's Park|2026-11-15|19:00|60 min"
  ],
  "stats": {
-  "day": "2026-11-13",
-  "checks": 146,
-  "new_slots": 34,
+  "day": "2026-11-14",
+  "checks": 1,
+  "new_slots": 0,
   "errors": 0
  }
 }
