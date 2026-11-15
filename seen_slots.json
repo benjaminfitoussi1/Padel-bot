@@ -9,7 +9,6 @@
   "Padel|Regent's Park|2026-11-15|11:00|60 min",
   "Padel|Regent's Park|2026-11-15|13:00|60 min",
   "Padel|Regent's Park|2026-11-21|19:00|60 min",
-  "Padel|Regent's Park|2026-11-22|16:00|60 min",
   "Padel|Regent's Park|2026-11-22|17:00|60 min",
   "Padel|Regent's Park|2026-11-22|18:00|60 min",
   "Padel|Regent's Park|2026-11-22|19:00|60 min",
@@ -36,7 +35,7 @@
  ],
  "stats": {
   "day": "2026-11-15",
-  "checks": 49,
+  "checks": 50,
   "new_slots": 30,
   "errors": 0
  }
