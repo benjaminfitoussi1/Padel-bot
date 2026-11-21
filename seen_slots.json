@@ -23,6 +23,7 @@
   "Tennis|Regent's Park|2026-11-21|19:00|60 min",
   "Tennis|Regent's Park|2026-11-22|09:00|60 min",
   "Tennis|Regent's Park|2026-11-22|11:00|60 min",
+  "Tennis|Regent's Park|2026-11-22|12:00|60 min",
   "Tennis|Regent's Park|2026-11-22|13:00|60 min",
   "Tennis|Regent's Park|2026-11-22|18:00|60 min",
   "Tennis|Regent's Park|2026-11-28|14:00|60 min",
@@ -32,8 +33,8 @@
  ],
  "stats": {
   "day": "2026-11-21",
-  "checks": 60,
-  "new_slots": 33,
+  "checks": 61,
+  "new_slots": 34,
   "errors": 0
  }
 }
