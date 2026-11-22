@@ -3,7 +3,6 @@
   "Padel|Hyde Park|2026-11-22|15:00|60 min",
   "Padel|Hyde Park|2026-11-28|18:00|60 min",
   "Padel|Hyde Park|2026-11-28|19:00|60 min",
-  "Padel|Hyde Park|2026-11-29|09:00|60 min",
   "Padel|Hyde Park|2026-11-29|10:00|60 min",
   "Padel|Hyde Park|2026-11-29|12:00|60 min",
   "Padel|Hyde Park|2026-11-29|14:00|60 min",
@@ -30,7 +29,7 @@
  ],
  "stats": {
   "day": "2026-11-22",
-  "checks": 56,
+  "checks": 57,
   "new_slots": 28,
   "errors": 0
  }
